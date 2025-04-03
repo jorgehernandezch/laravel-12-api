@@ -1,0 +1,6 @@
+@import "tailwindcss";
+@source "../views";
+
+@theme {
+    --color-test-300: #FF0000;
+}
