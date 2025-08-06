@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\Auth\GenerateResetTokenRequest;
+use App\Http\Requests\Api\Auth\ResetPasswordRequest;
 use App\Http\Requests\Api\Auth\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -92,6 +93,26 @@ class AuthController extends Controller
             'token' => $token,
             'email' => $user->email,
         ]);
+    }
+
+    public function resetPassword(ResetPasswordRequest $request)
+    {
+        $record = DB::table('password_reset_tokens')
+            ->where('email', $request->email)
+            ->first();
+
+        if (!$record || !Hash::check($request->token, $record->token)) {
+            return ApiResponse::error('Invalid or expired token', 400);
+        }
+
+        $user = User::where('email', $request->email)->firstOrFail();
+        $user->password = Hash::make($request->password);
+        $user->setRememberToken(Str::random(60));
+        $user->save();
+
+        DB::table('password_reset_tokens')->where('email', $request->email)->delete();
+
+        return ApiResponse::success('Password reset successfully', 200);
     }
 
     public function logout(Request $request)

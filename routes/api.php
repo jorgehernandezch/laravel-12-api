@@ -10,6 +10,7 @@ Route::prefix('v1')->group(function () {
         Route::post('/user', [AuthController::class, 'userRegister']);
     });
     Route::post('forgot-password-token', [AuthController::class, 'generateResetToken']);
+    Route::post('reset-password', [AuthController::class, 'resetPassword']);
     Route::middleware('auth:sanctum')->group(function () {
         Route::apiResource('users', UserController::class);
         //Logout route
