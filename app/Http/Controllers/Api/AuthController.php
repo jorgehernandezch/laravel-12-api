@@ -3,13 +3,19 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Responses\ApiResponse;
+use App\Http\Traits\UserTrait;
 use App\Models\User;
+use Illuminate\Auth\Events\Registered;
+use App\Http\Resources\UserResource;
 
 class AuthController extends Controller
 {
+    use UserTrait;
+
     public function login(Request $request)
     {
         try {
@@ -37,6 +43,28 @@ class AuthController extends Controller
         } catch (\Exception $e) {
             return ApiResponse::error('Login failed', 500, [
                 'error' => $e->getMessage()
+            ]);
+        }
+    }
+
+    public function userRegister(UserRegisterRequest $request)
+    {
+        try {
+            $user = $this->createUser((object) $request->all());
+
+            if (!$user) {
+                return ApiResponse::error('Failed to create user', 500);
+            }
+
+            $this->createProfile($user->id, (object) $request->all());
+            event(new Registered($user));
+
+            return ApiResponse::success('User created successfully', 201, [
+                'user' => new UserResource($user)
+            ]);
+        } catch (\Exception $e) {
+            return ApiResponse::error('Failed to create user', 500, [
+                'error' => $e->getMessage(),
             ]);
         }
     }
