@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Api\Auth\GenerateResetTokenRequest;
 use App\Http\Requests\Api\Auth\UserRegisterRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,6 +12,10 @@ use App\Http\Traits\UserTrait;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
 use App\Http\Resources\UserResource;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class AuthController extends Controller
 {
@@ -67,6 +72,26 @@ class AuthController extends Controller
                 'error' => $e->getMessage(),
             ]);
         }
+    }
+
+    public function generateResetToken(GenerateResetTokenRequest $request)
+    {
+        $user = User::where('email', $request->email)->firstOrFail();
+        $token = Str::random(64);
+
+        DB::table('password_reset_tokens')->updateOrInsert(
+            ['email' => $user->email],
+            [
+                'email' => $user->email,
+                'token' => Hash::make($token),
+                'created_at' => Carbon::now(),
+            ]
+        );
+
+        return ApiResponse::success('Token generated successfully', 200, [
+            'token' => $token,
+            'email' => $user->email,
+        ]);
     }
 
     public function logout(Request $request)
