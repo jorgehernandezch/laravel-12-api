@@ -6,18 +6,30 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Responses\ApiResponse;
+use App\Models\User;
 
 class AuthController extends Controller
 {
     public function login(Request $request)
     {
         try {
+            $user = User::withTrashed()->where('email', $request->email)->first();
+
+            if ($user && $user->trashed()) {
+                return ApiResponse::error('Account has been deleted', 403);
+            }
 
             if (!Auth::attempt($request->only('email', 'password'))) {
                 return ApiResponse::error('User Unauthorized', 401);
             }
 
-            $token = $request->user()->createToken('token')->plainTextToken;
+            $user = User::where('id', Auth::id())->first();
+
+            if (!$user->is_active) {
+                return ApiResponse::error('Account is inactive', 403);
+            }
+
+            $token = $user->createToken('token')->plainTextToken;
 
             return ApiResponse::success('User Authorized', 200, [
                 'token' => $token
