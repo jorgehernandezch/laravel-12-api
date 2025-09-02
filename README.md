@@ -1,66 +1,91 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# 🚀 API Laravel 12
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API RESTful desarrollada con el **framework Laravel 12** y configurada para su entorno de desarrollo con **Laravel Sail**. Este proyecto sirve como un punto de partida para construir servicios web robustos y escalables.
 
-## About Laravel
+-----
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+## ✨ Características Principales
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+  * **API RESTful:** Implementación de endpoints RESTful para la gestión de recursos.
+  * **Laravel Sail:** Entorno de desarrollo Docker para un setup rápido y consistente.
+  * **Validación de Datos:** Uso de las validaciones de Laravel para asegurar la integridad de los datos.
+  * **Gestión de Rutas:** Rutas de API definidas en `routes/api.php`.
+  * **ORM Eloquent:** Manejo de la base de datos a través del ORM de Laravel.
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+-----
 
-## Learning Laravel
+## ⚙️ Requisitos
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Antes de empezar, asegúrate de tener instalados los siguientes programas:
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+  * **Docker:** Para gestionar los contenedores de Sail.
+  * **Git:** Para clonar el repositorio.
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+-----
 
-## Laravel Sponsors
+## 🔧 Instalación y Configuración
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+Sigue estos pasos para configurar el proyecto en tu entorno local:
 
-### Premium Partners
+1.  **Clonar el repositorio:**
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[WebReinvent](https://webreinvent.com/)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Jump24](https://jump24.co.uk)**
-- **[Redberry](https://redberry.international/laravel/)**
-- **[Active Logic](https://activelogic.com)**
-- **[byte5](https://byte5.de)**
-- **[OP.GG](https://op.gg)**
+    ```bash
+    git clone https://github.com/jorgehernandezch/laravel-12-api.git
+    cd laravel-12-api
+    ```
 
-## Contributing
+2.  **Iniciar los servicios con Sail:**
+    El comando `sail up` construye las imágenes de Docker y arranca los contenedores de los servicios (PHP, MySQL, etc.).
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+    ```bash
+    # Para arrancar en segundo plano
+    ./vendor/bin/sail up -d 
 
-## Code of Conduct
+    # Para arrancar en primer plano (útil para ver los logs)
+    # ./vendor/bin/sail up
+    ```
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+3.  **Configurar el archivo `.env`:**
+    Copia el archivo de ejemplo y genera una clave de aplicación.
 
-## Security Vulnerabilities
+    ```bash
+    # Usa sail para ejecutar los comandos de artisan
+    ./vendor/bin/sail artisan key:generate
+    ```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    El host de la base de datos ya está configurado para el servicio de Docker, por lo que no es necesario modificarlo si no cambiaste los servicios en el archivo `docker-compose.yml`. El valor por defecto es `DB_HOST=mysql`.
 
-## License
+4.  **Ejecutar migraciones:**
+    Aplica las migraciones de la base de datos para crear las tablas necesarias.
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    ```bash
+    ./vendor/bin/sail artisan migrate
+    ```
+
+5.  **Listo para usar:**
+    La API estará disponible en `http://localhost`.
+
+-----
+
+## 🎯 Endpoints de la API
+
+A continuación, se describen los endpoints disponibles. Para probarlos, puedes usar herramientas como Postman o cURL.
+
+| Método HTTP | Endpoint | Descripción |
+| :--- | :--- | :--- |
+| `GET` | `/api/user` | Obtiene la información del usuario autenticado. |
+| `DELETE` | `/api/user/delete` | Elimina la cuenta del usuario autenticado. |
+
+**Nota:** Reemplaza `{recurso}` por el nombre de tu modelo (ej. `posts`, `users`) y `{id}` por el identificador único.
+
+-----
+
+## 🤝 Contribuciones
+
+Si deseas contribuir a este proyecto, por favor, abre un "issue" o un "pull request". Todas las contribuciones son bienvenidas.
+
+-----
+
+## 📄 Licencia
+
+Este proyecto está bajo la licencia **MIT**.
