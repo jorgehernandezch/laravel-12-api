@@ -101,11 +101,19 @@ You can test them using tools such as **Postman** or **cURL**.
 
 | **HTTP Method** | **Endpoint** | **Description** |
 | :-------------- | :----------- | :-------------- |
-| `GET` | `/api/user` | Retrieves the authenticated user’s information. |
-| `DELETE` | `/api/user/delete` | Deletes the authenticated user’s account. |
+| `POST` | `/login` | Authenticates a user and returns an access token. |
+| `POST` | `/register/user` | Registers a new user in the system. |
+| `POST` | `/forgot-password-token` | Sends a password reset link to the user's email. |
+| `POST` | `/reset-password` | Resets the user's password using the provided token. |
+| `GET` | `/user` | Retrieves information about the authenticated user. *(Auth required)* |
+| `PUT` | `/user/basic-info` | Updates the user's basic information (name, email, etc.). *(Auth required)* |
+| `PUT` | `/user/password` | Updates the user's password. *(Auth required)* |
+| `PUT` | `/user/personal-data` | Updates the user's personal data (CPF, phone, etc.). *(Auth required)* |
+| `PUT` | `/user/social-profile` | Updates the user's social profile links. *(Auth required)* |
+| `POST` | `/user/deactivate` | Deactivates the authenticated user's account. *(Auth required)* |
+| `DELETE` | `/user/delete` | Permanently deletes the authenticated user's account. *(Auth required)* |
+| `POST` | `/logout` | Logs out the authenticated user and invalidates the token. *(Auth required)* |
 
-> **Note:** Replace `{resource}` with your model name (e.g. `posts`, `users`)  
-> and `{id}` with the unique resource identifier.
 
 ## 🤝 Contributing
 
