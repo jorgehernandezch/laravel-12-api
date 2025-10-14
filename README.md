@@ -32,6 +32,12 @@ Sigue estos pasos para configurar el proyecto en tu entorno local:
     ```bash
     git clone https://github.com/jorgehernandezch/laravel-12-api.git
     cd laravel-12-api
+    docker run --rm \
+    -u "$(id -u):$(id -g)" \
+    -v "$(pwd):/var/www/html" \
+    -w /var/www/html \
+    laravelsail/php84-composer:latest \
+    composer install --ignore-platform-reqs
     ```
 
 2.  **Iniciar los servicios con Sail:**
