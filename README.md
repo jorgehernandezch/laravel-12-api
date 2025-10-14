@@ -1,97 +1,120 @@
-# 🚀 API Laravel 12
+# 🚀 Laravel 12 API
 
-API RESTful desarrollada con el **framework Laravel 12** y configurada para su entorno de desarrollo con **Laravel Sail**. Este proyecto sirve como un punto de partida para construir servicios web robustos y escalables.
+A **RESTful API** built with the **Laravel 12 framework**, configured for local development using **Laravel Sail**.  
+This project serves as a solid starting point for building scalable and maintainable web services.
 
------
+---
 
-## ✨ Características Principales
+## ✨ Key Features
 
-  * **API RESTful:** Implementación de endpoints RESTful para la gestión de recursos.
-  * **Laravel Sail:** Entorno de desarrollo Docker para un setup rápido y consistente.
-  * **Validación de Datos:** Uso de las validaciones de Laravel para asegurar la integridad de los datos.
-  * **Gestión de Rutas:** Rutas de API definidas en `routes/api.php`.
-  * **ORM Eloquent:** Manejo de la base de datos a través del ORM de Laravel.
+- **RESTful API:** Implementation of RESTful endpoints for resource management.  
+- **Laravel Sail:** Docker-based development environment for a fast and consistent setup.  
+- **Data Validation:** Leverages Laravel’s validation system to ensure data integrity.  
+- **Route Management:** All API routes are defined in `routes/api.php`.  
+- **Eloquent ORM:** Simplified database interactions using Laravel’s ORM.
 
------
+---
 
-## ⚙️ Requisitos
+## ⚙️ Requirements
 
-Antes de empezar, asegúrate de tener instalados los siguientes programas:
+Before you begin, make sure you have the following installed:
 
-  * **Docker:** Para gestionar los contenedores de Sail.
-  * **Git:** Para clonar el repositorio.
+- **Docker:** To manage the Sail containers.  
+- **Git:** To clone the repository.
 
------
+---
 
-## 🔧 Instalación y Configuración
+## 🔧 Installation & Setup
 
-Sigue estos pasos para configurar el proyecto en tu entorno local:
+Follow these steps to set up the project locally:
 
-1.  **Clonar el repositorio:**
+### 1. Clone the repository
 
-    ```bash
-    git clone https://github.com/jorgehernandezch/laravel-12-api.git
-    cd laravel-12-api
-    docker run --rm \
-    -u "$(id -u):$(id -g)" \
-    -v "$(pwd):/var/www/html" \
-    -w /var/www/html \
-    laravelsail/php84-composer:latest \
-    composer install --ignore-platform-reqs
-    ```
+Clone the repository from GitHub and navigate into the project directory:
 
-2.  **Iniciar los servicios con Sail:**
-    El comando `sail up` construye las imágenes de Docker y arranca los contenedores de los servicios (PHP, MySQL, etc.).
+```bash
+git clone https://github.com/jorgehernandezch/laravel-12-api.git
+cd laravel-12-api
+```
 
-    ```bash
-    # Para arrancar en segundo plano
-    ./vendor/bin/sail up -d 
+### 2. Install Dependencies
 
-    # Para arrancar en primer plano (útil para ver los logs)
-    # ./vendor/bin/sail up
-    ```
+Use the Laravel Sail Composer image to install dependencies without requiring a local PHP installation:
 
-3.  **Configurar el archivo `.env`:**
-    Copia el archivo de ejemplo y genera una clave de aplicación.
+```bash
+docker run --rm \
+  -u "$(id -u):$(id -g)" \
+  -v "$(pwd):/var/www/html" \
+  -w /var/www/html \
+  laravelsail/php84-composer:latest \
+  composer install --ignore-platform-reqs
+```
 
-    ```bash
-    # Usa sail para ejecutar los comandos de artisan
-    ./vendor/bin/sail artisan key:generate
-    ```
+### 3. Start the services with Sail
 
-    El host de la base de datos ya está configurado para el servicio de Docker, por lo que no es necesario modificarlo si no cambiaste los servicios en el archivo `docker-compose.yml`. El valor por defecto es `DB_HOST=mysql`.
+The sail up command builds the Docker images and starts the required containers (PHP, MySQL, etc.).
 
-4.  **Ejecutar migraciones:**
-    Aplica las migraciones de la base de datos para crear las tablas necesarias.
+```bash
+# Start in detached mode
+./vendor/bin/sail up -d 
 
-    ```bash
-    ./vendor/bin/sail artisan migrate
-    ```
+# Or in the foreground (to view logs)
+# ./vendor/bin/sail up
+```
 
-5.  **Listo para usar:**
-    La API estará disponible en `http://localhost`.
+### 4. Configure the .env file
 
------
+Copy the example environment file and generate a new application key:
 
-## 🎯 Endpoints de la API
+```bash
+cp .env.example .env
+./vendor/bin/sail artisan key:generate 
 
-A continuación, se describen los endpoints disponibles. Para probarlos, puedes usar herramientas como Postman o cURL.
+# Or
+sail artisan key:generate 
+```
 
-| Método HTTP | Endpoint | Descripción |
-| :--- | :--- | :--- |
-| `GET` | `/api/user` | Obtiene la información del usuario autenticado. |
-| `DELETE` | `/api/user/delete` | Elimina la cuenta del usuario autenticado. |
+The database host is already configured for Docker (DB_HOST=mysql by default),
+so you only need to modify it if you changed the services in the docker-compose.yml file.
 
-**Nota:** Reemplaza `{recurso}` por el nombre de tu modelo (ej. `posts`, `users`) y `{id}` por el identificador único.
+### 5. Run database migrations
 
------
+Apply the migrations to create the necessary tables:
 
-## 🤝 Contribuciones
+```bash
+./vendor/bin/sail artisan migrate --seed
+#Or
+sail artisan migrate --seed
+```
 
-Si deseas contribuir a este proyecto, por favor, abre un "issue" o un "pull request". Todas las contribuciones son bienvenidas.
+### 6. Access the API
+Once everything is running, your API will be available at:
 
------
+```arduino
+http://localhost:8020/api/v1
+```
 
-## 📄 Licencia
+## 🎯 API Endpoints
 
-Este proyecto está bajo la licencia **MIT**.
+Below is a list of the available endpoints.  
+You can test them using tools such as **Postman** or **cURL**.
+
+| **HTTP Method** | **Endpoint** | **Description** |
+| :-------------- | :----------- | :-------------- |
+| `GET` | `/api/user` | Retrieves the authenticated user’s information. |
+| `DELETE` | `/api/user/delete` | Deletes the authenticated user’s account. |
+
+> **Note:** Replace `{resource}` with your model name (e.g. `posts`, `users`)  
+> and `{id}` with the unique resource identifier.
+
+## 🤝 Contributing
+
+Contributions are always welcome! If you’d like to contribute, please open an issue or submit a pull request.
+
+## 📄 License
+
+This project is licensed under the MIT License.
+
+---
+[Jorge Edo. Hernández](https://github.com/jorgehernandezch)  
+_Engineer and Web Developer_
